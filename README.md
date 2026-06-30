@@ -6,6 +6,7 @@ A ROS 2 Jazzy and Gazebo Sim project that implements a simple mobile manipulator
 
 - Differential drive mobile robot
 - 2-DOF robotic arm
+- Camera module
 - Modular Xacro-based robot description
 - Gazebo Sim integration
 - Custom warehouse environment
