@@ -18,7 +18,25 @@ A ROS 2 Jazzy and Gazebo Sim project that implements a simple mobile manipulator
 ```text
 src/
 ├── my_robot_description/
-├── my_robot_bringup/
+│   ├── urdf/      # Robot models and Xacro files
+│   └── rviz/      # RViz configurations
+│
+└── my_robot_bringup/
+    ├── launch/    # Launch files
+    ├── config/    # Gazebo bridge configuration
+    └── worlds/    # Custom simulation environments
+```
+
+## Robot Architecture
+
+```text
+Mobile Manipulator Robot
+├── Differential Drive Base
+├── 2-DOF Manipulator Arm
+├── Camera Sensor
+├── Gazebo Simulation
+├── RViz Visualization
+└── ROS-Gazebo Topic Bridge
 ```
 
 ## Dependencies
@@ -45,6 +63,9 @@ ros2 launch my_robot_bringup my_robot_gazebo.launch.py
 
 ```text
 base_link
+├── left_wheel
+├── right_wheel
+├── camera_link
 └── arm_base
     └── forearm_link
         └── hand_link
