@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:property name="box_sides" value="0.1" />
+    <xacro:property name="box_height" value="0.02" />
+    <xacro:property name="cylinder_radius" value="0.02" />
+    <xacro:property name="cylinder_length" value="0.3" />
+
+
+    <link name="arm_base">
+        <visual>
+            <geometry> 
+                <box size= "${box_sides} ${box_sides} ${box_height}"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+
+        <collision>
+            <geometry> 
+                <box size= "${box_sides} ${box_sides} ${box_height}"/>
+            </geometry>
+        </collision>
+
+        <xacro:box_inertia m="0.5" x="${box_sides}" y="${box_sides}" z="${box_height}"
+            o_xyz="0 0 0" o_rpy="0 0 0"/>
+    </link>
+
+    <xacro:macro name="cylinder" params="prefix r l">
+        <link name="${prefix}_link">
+            <visual>
+                <geometry> 
+                    <cylinder radius="${r}" length="${l}"/>
+                </geometry>
+                <material name="yellow"/>
+            </visual>
+            <collision>
+                <geometry> 
+                    <cylinder radius="${r}" length="${l/3.0}"/>
+                </geometry>
+            </collision>
+            <xacro:cylinder_inertia m="0.3" r="${cylinder_radius}" l="${cylinder_length/3.0}"
+                o_xyz="0 0 ${cylinder_length}" o_rpy="0 0 0"/> 
+        </link>
+    </xacro:macro>
+
+    <xacro:cylinder prefix="forearm" r="${cylinder_radius}" l="${cylinder_length}" />
+    <xacro:cylinder prefix="hand" r="${cylinder_radius}" l="${cylinder_length}" />
+
+    <joint name="forearm_base_joint" type="revolute">
+        <parent link="arm_base"/>
+        <child link="forearm_link"/>
+        <origin xyz="0 0 ${box_height}" rpy="0 0 0"/>
+        <axis xyz="0 1 0" />
+        <limit lower="0" upper="${pi/2}" effort="100" velocity="100" />
+        <dynamics friction="0.3" damping="0.3" />
+    </joint>
+
+    <joint name="forearm_hand_joint" type="revolute">
+        <parent link="forearm_link"/>
+        <child link="hand_link"/>
+        <origin xyz="0 0 ${cylinder_length}" rpy="0 0 0"/>
+        <axis xyz="0 1 0" />
+        <limit lower="0" upper="${pi/2}" effort="100" velocity="100" />
+        <dynamics friction="0.3" damping="0.3" />
+    </joint>
+
+</robot>
