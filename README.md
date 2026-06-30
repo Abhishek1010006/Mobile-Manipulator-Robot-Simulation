@@ -41,10 +41,6 @@ source install/setup.bash
 ros2 launch my_robot_bringup my_robot_gazebo.launch.py
 ```
 
-```bash
-ros2 launch my_robot_description display.launch.py
-```
-
 ## Robot Kinematic Tree
 
 ```text
